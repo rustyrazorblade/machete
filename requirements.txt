@@ -1,1 +1,10 @@
 thunderdome==0.4.3
+Flask==0.9
+uwsgi==1.4.9
+ipython
+ipdb
+prettytable
+cython==0.18
+https://github.com/SiteSupport/gevent/archive/1.0rc2.zip
+statsd==1.0.0
+
