@@ -9,3 +9,4 @@ https://github.com/SiteSupport/gevent/archive/1.0rc2.zip
 statsd==1.0.0
 thunderdome-logging==1.0
 nose
+GitPython==0.3.2.RC1
