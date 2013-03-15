@@ -6,7 +6,10 @@ setup(["localhost"], "machete")
 
 
 class BaseVertex(thunderdome.Vertex):
-    pass
+    created_at = thunderdome.DateTime()
+    updated_at = thunderdome.DateTime()
+
+
 
 class BaseEdge(thunderdome.Edge):
     pass
