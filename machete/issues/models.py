@@ -1,16 +1,13 @@
 
+import thunderdome
 from machete.base import BaseVertex, BaseEdge
 
 class Issue(BaseVertex):
-    pass
+    description = thunderdome.String()
 
 class Severity(BaseVertex):
-    pass
-
+    name = thunderdome.String()
 
 class AssignedTo(BaseEdge):
     pass
-
-
-
 
