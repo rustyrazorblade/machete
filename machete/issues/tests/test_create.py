@@ -1,6 +1,8 @@
 
 from machete.issues.models import Issue
 
-
-def test_blah():
+import unittest
+class CreateTest(unittest.TestCase):
     pass
+
+
