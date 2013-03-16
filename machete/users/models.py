@@ -1,5 +1,4 @@
 
-import passlib
 from passlib.hash import sha256_crypt
 import thunderdome
 from machete.base import BaseVertex, BaseEdge
@@ -44,7 +43,15 @@ class Group(BaseVertex):
     name = thunderdome.String()
 
     def add(self, user):
-        MemberOf.create(Group, User)
+        assert isinstance(user, User)
+        MemberOf.create(user, self)
+
+    @property
+    def members(self):
+        """
+        :return: list
+        """
+        return self.inV(MemberOf)
 
 class MemberOf(BaseEdge):
     pass

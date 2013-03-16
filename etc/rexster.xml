@@ -69,6 +69,7 @@
                 <storage.backend>local</storage.backend>
                 <storage.directory>/tmp/machete</storage.directory>
                 <buffer-size>100</buffer-size>
+                <autotype>none</autotype>
             </properties>
 
             <extensions>
