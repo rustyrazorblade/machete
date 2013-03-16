@@ -11,13 +11,11 @@ class Issue(BaseVertex):
         """
         Returns the severity associated with this issue
 
-        :rtype: machete.issues.models.Severity
+        :rtype: machete.issues.models.Severity or None
         
         """
         result = self.outV(Caliber)
-        # Ensure this invariant holds as each issue should have one severity
-        assert len(result) <= 1
-        return result[0]
+        return result[0] if result else None
 
         
 class Severity(BaseVertex):
@@ -38,6 +36,22 @@ class Severity(BaseVertex):
 class Caliber(BaseEdge):
     """Edge connecting an issue to its severity"""
 
+    @classmethod
+    def create(cls, issue, severity):
+        """
+        Create a new edge associating and issue with a severity. Raises an
+        exception if there is already a severity associated with the given
+        issue.
+
+        :rtype: machete.issues.models.Caliber
+        
+        """
+        if issue.severity is not None:
+            raise ValueError(
+                'issue {} already has an associated severity'.format(issue)
+            )
+        return super(Caliber, cls).create(issue, severity)
+        
     @property
     def issue(self):
         """

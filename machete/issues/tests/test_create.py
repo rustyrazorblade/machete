@@ -19,3 +19,6 @@ class CreateTest(unittest.TestCase):
         assert issue in severity.issues
         assert caliber.issue == issue
         assert caliber.severity == severity
+
+        with self.assertRaises(ValueError):
+            Caliber.create(issue, severity)
