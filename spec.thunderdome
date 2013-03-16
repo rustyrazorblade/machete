@@ -8,8 +8,11 @@
     {"type": "property", "name": "element_type", "data_type": "String"},
     {"type": "property", "name": "email", "data_type": "String", "locking": true, "indexed":true, "unique":true},
     {"type": "property", "name": "description", "data_type": "String"},
+
     {"type": "edge", "label": "member_of"},
     {"type": "edge", "label": "assigned_to"},
-    {"type": "edge", "label": "caliber", "functional":true}
+
+    {"type": "edge", "label": "has_status", "functional":true},
+    {"type": "edge", "label": "has_severity", "functional":true}
 ]
 
