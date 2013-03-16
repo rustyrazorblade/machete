@@ -9,6 +9,6 @@
     {"type": "property", "name": "email", "data_type": "String", "locking": true, "indexed":true, "unique":true},
     {"type": "property", "name": "description", "data_type": "String"},
     {"type": "edge", "label": "member_of"},
-    {"type": "edge", "label": "caliber"}
+    {"type": "edge", "label": "caliber", "functional":true}
 ]
 
