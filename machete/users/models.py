@@ -10,6 +10,8 @@ class User(BaseVertex):
     email = thunderdome.String()
     password = thunderdome.String()
 
+    get_by_email = thunderdome.GremlinValue(classmethod=True)
+
     @classmethod
     def hash(password):
         """
@@ -40,9 +42,6 @@ class User(BaseVertex):
     def authenticate(cls, email, password):
         sha256_crypt.verify(password)
         return False
-    @classmethod
-    def get_by_email(cls, email):
-        return
 
 
 class Group(BaseVertex):

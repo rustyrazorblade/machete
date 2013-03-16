@@ -8,7 +8,6 @@ import unittest
 import uuid
 
 
-
 def test_create_and_login():
     email = uuid.uuid4().hex + "@test.com"
 
