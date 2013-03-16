@@ -1,5 +1,4 @@
-
-from flask import render_template
+from flask import render_template, jsonify
 from flask.ext.classy import FlaskView
 
 
