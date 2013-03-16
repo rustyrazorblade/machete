@@ -1,6 +1,6 @@
 from flask.ext.classy import FlaskView
 
-from templating import render
+from machete.templating import render
 
 
 class WikiView(FlaskView):

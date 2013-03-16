@@ -15,6 +15,8 @@ def setup(template_directories, static_directory, debug=False):
     global _debug
     global _tmpl_lookup
     global _static_dir
+    print template_directories
+    print static_directory
     kwargs = {'directories':template_directories}
 #    if debug:
 #        kwargs['format_exceptions'] = True

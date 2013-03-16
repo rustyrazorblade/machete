@@ -1,1 +1,1 @@
-from templating.render import render
+from machete.templating.render import render

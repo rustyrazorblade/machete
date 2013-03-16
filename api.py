@@ -2,11 +2,11 @@ import os
 
 from flask import Flask
 
-from issues.blueprints import IssuesView
-from questions.blueprints import QuestionsView
-from wiki.blueprints import WikiView
+from machete.issues.blueprints import IssuesView
+from machete.questions.blueprints import QuestionsView
+from machete.wiki.blueprints import WikiView
 
-from templating.render import render, setup
+from machete.templating.render import render, setup
 
 app = Flask(__name__)
 app.debug = True # for a while...
