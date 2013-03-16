@@ -1,6 +1,7 @@
 [
     {"type": "defaults", "spec_type": "property", "functional": false, "indexed": false, "locking": false},
     {"type": "property", "name": "name", "data_type": "String", "functional": true, "locking": false},
+    {"type": "property", "name": "element_type", "data_type": "String", "functional": true, "locking": false},
     {"type": "property", "name": "email", "data_type": "String", "functional": true, "locking": false, "indexed":true},
     {"type": "edge", "label": "member_of"}
 ]
