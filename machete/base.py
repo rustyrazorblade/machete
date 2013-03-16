@@ -2,7 +2,7 @@ from datetime import datetime
 from thunderdome.connection import setup
 import thunderdome
 
-setup(["localhost"], "machete")
+setup(["localhost"], "machete", index_all_fields=False)
 
 
 class BaseVertex(thunderdome.Vertex):
