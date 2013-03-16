@@ -29,19 +29,15 @@ class User(BaseVertex):
         >>> sha256_crypt.verify("joshua", hash)
         False
         """
-        sha256_crypt.encrypt
-
-        return password
+        return sha256_crypt.encrypt(password)
 
     @classmethod
     def create(cls, email, password, name):
         password = sha256_crypt.encrypt(password)
         return super(User, cls).create(email=email, password=password, name=name)
 
-    @classmethod
-    def authenticate(cls, email, password):
-        sha256_crypt.verify(password)
-        return False
+    def authenticate(self, password):
+        return sha256_crypt.verify(password, self.password)
 
 
 class Group(BaseVertex):
