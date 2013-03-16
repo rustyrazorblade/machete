@@ -1,0 +1,1 @@
+from templating.render import render

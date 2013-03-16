@@ -1,7 +1,8 @@
-from flask import render_template
 from flask.ext.classy import FlaskView
+
+from templating import render
 
 
 class WikiView(FlaskView):
     def index(self):
-        return render_template("wiki.html")
+        return render("wiki.mako")

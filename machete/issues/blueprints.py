@@ -1,7 +1,7 @@
-from flask import render_template, jsonify
 from flask.ext.classy import FlaskView
 
+from templating import render
 
 class IssuesView(FlaskView):
     def index(self):
-        return render_template("issues.html")
+        return render("issues.mako")
