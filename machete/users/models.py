@@ -1,5 +1,4 @@
 
-import passlib
 from passlib.hash import sha256_crypt
 import thunderdome
 from machete.base import BaseVertex, BaseEdge
@@ -29,26 +28,30 @@ class User(BaseVertex):
         >>> sha256_crypt.verify("joshua", hash)
         False
         """
-        sha256_crypt.encrypt
-
-        return password
+        return sha256_crypt.encrypt(password)
 
     @classmethod
     def create(cls, email, password, name):
         password = sha256_crypt.encrypt(password)
         return super(User, cls).create(email=email, password=password, name=name)
 
-    @classmethod
-    def authenticate(cls, email, password):
-        sha256_crypt.verify(password)
-        return False
+    def authenticate(self, password):
+        return sha256_crypt.verify(password, self.password)
 
 
 class Group(BaseVertex):
     name = thunderdome.String()
 
     def add(self, user):
-        MemberOf.create(Group, User)
+        assert isinstance(user, User)
+        MemberOf.create(user, self)
+
+    @property
+    def members(self):
+        """
+        :return: list
+        """
+        return self.inV(MemberOf)
 
 class MemberOf(BaseEdge):
     pass
