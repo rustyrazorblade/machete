@@ -13,6 +13,7 @@
     {"type": "edge", "label": "assigned_to"},
 
     {"type": "edge", "label": "has_status", "functional":true},
+    {"type": "edge", "label": "has_project", "functional":true},
     {"type": "edge", "label": "has_severity", "functional":true}
 ]
 

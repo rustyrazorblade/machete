@@ -4,6 +4,9 @@ from machete.base import BaseVertex, BaseEdge
 class Project(BaseVertex):
     name = thunderdome.String()
 
+class HasProject(BaseEdge):
+    pass
+
 
 class Issue(BaseVertex):
     """Represents an issue in machete and associated information."""
@@ -17,8 +20,10 @@ class Issue(BaseVertex):
 
         issue = super(Issue, cls).create(description=description)
 
+        HasProject.create(issue, project)
         HasStatus.create(issue, status)
         HasSeverity.create(issue, severity)
+
         return issue
 
     @property
