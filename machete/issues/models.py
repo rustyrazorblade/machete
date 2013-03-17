@@ -1,16 +1,29 @@
 import thunderdome
 from machete.base import BaseVertex, BaseEdge
 
+class Project(BaseVertex):
+    name = thunderdome.String()
+
+class HasProject(BaseEdge):
+    pass
+
 
 class Issue(BaseVertex):
     """Represents an issue in machete and associated information."""
     description = thunderdome.String()
 
     @classmethod
-    def create(cls, description, severity, status):
+    def create(cls, description, project, severity, status):
+        assert project
+        assert severity
+        assert status
+
         issue = super(Issue, cls).create(description=description)
+
+        HasProject.create(issue, project)
         HasStatus.create(issue, status)
         HasSeverity.create(issue, severity)
+
         return issue
 
     @property
@@ -27,6 +40,19 @@ class Issue(BaseVertex):
 class IssueProxy(object):
     def __init__(self, user):
         self.user = user
+
+class IssueList(object):
+    def __init__(self):
+        self.user = []
+        self.limit = None
+        self.status = []
+        self._issues = []
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        return None
 
 class Status(BaseVertex):
     """
