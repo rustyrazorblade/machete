@@ -1,3 +1,5 @@
+from flask import request, session
+
 from mako import exceptions
 from mako import lookup
 
@@ -31,6 +33,8 @@ def _add_basic_context(ctx):
     Adds some helper methods and values to the template context
     """
     ctx.setdefault('url_for', _url_for)
+    ctx.setdefault('request', request)
+    ctx.setdefault('session', session)
 
 def render(template_path, context={}, debug=False):
     """

@@ -28,11 +28,27 @@
                                 <!-- put username here -->
                             </p>
                             <ul class="nav">
-                                <li><a href="/">Home</a></li>
-                                <li class="active"><a href="/issues">Issues</a></li>
-                                <li><a href="/questions">Questions</a></li>
-                                <li><a href="/wiki">Wiki</a></li>
+                                <%
+                                    def active_class(path):
+                                        if request.path == path:
+                                            return 'class="active"'
+                                        return ''
+                                %>
+                                %if session.user:
+                                <li ${active_class('/')}><a href="/">Home</a></li>
+                                <li ${active_class('/issues/')}><a href="/issues">Issues</a></li>
+                                <li ${active_class('/questions/')}><a href="/questions">Questions</a></li>
+                                <li ${active_class('/wiki/')}><a href="/wiki">Wiki</a></li>
+
+                                %else:
+                                <li><a href="/login/">Login</a></li>
+                                %endif
                             </ul>
+                            %if session.user:
+                            <ul class="nav pull-right">
+                                <li><a href="/logout/">${session.user.email} Logout</a></li>
+                            </ul>
+                            %endif
                         </div><!--/.nav-collapse -->
                     </div>
                 </div>
