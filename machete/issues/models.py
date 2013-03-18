@@ -1,6 +1,6 @@
 import thunderdome
 from machete.base import BaseVertex, BaseEdge
-
+from machete.project.models import HasProject, Project
 
 
 
@@ -10,9 +10,9 @@ class Issue(BaseVertex):
 
     @classmethod
     def create(cls, description, project, severity, status):
-        assert project
-        assert severity
-        assert status
+        assert isinstance(project, Project)
+        assert isinstance(severity, Severity)
+        assert isinstance(status, Status)
 
         issue = super(Issue, cls).create(description=description)
 

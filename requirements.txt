@@ -17,3 +17,4 @@ redis==2.7.2
 Flask-Classy==0.5.2
 passlib==1.6.1
 shovel==0.1.9
+Flask-Testing==0.4
