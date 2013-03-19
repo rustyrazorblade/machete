@@ -1,7 +1,8 @@
 
 import uuid
+from machete.projects.models import Project
 
-from machete.users.models import User
+from machete.users.models import User, Group
 
 
 def create_user():
@@ -11,11 +12,18 @@ def create_user():
 
 
 def create_group():
-    return
+    return Group.create(name="Test Group {}".format(uuid.uuid4().hex))
 
 def create_wiki():
     return
 
+
+def create_project(users=[]):
+    name = "Test Project {}".format(uuid.uuid4().hex)
+    p = Project.create(name=name)
+    for u in users:
+        p.add_user(u)
+    return p
 
 
 
