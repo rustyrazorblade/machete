@@ -6,6 +6,8 @@ from machete.issues.blueprints import IssuesView
 from machete.questions.blueprints import QuestionsView
 from machete.sessions.blueprints import LoginView, LogoutView
 from machete.sessions.manager import SessionManager
+from machete.projects.blueprints import ProjectsView
+
 from machete.templating.render import render, setup
 from machete.wiki.blueprints import WikiView
 
@@ -24,6 +26,7 @@ LoginView.register(app)
 LogoutView.register(app)
 QuestionsView.register(app)
 WikiView.register(app)
+ProjectsView.register(app)
 
 @app.route("/")
 def index():
