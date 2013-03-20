@@ -11,6 +11,7 @@
 
     {"type": "edge", "label": "member_of"},
     {"type": "edge", "label": "assigned_to"},
+    {"type": "edge", "label": "created_by"},
 
     {"type": "edge", "label": "has_status", "functional":true},
     {"type": "edge", "label": "has_project", "functional":true},
