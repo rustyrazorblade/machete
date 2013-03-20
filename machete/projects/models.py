@@ -12,6 +12,8 @@ class Project(BaseVertex):
         assert isinstance(user, User)
         project = super(Project, cls).create(name=name)
         CreatedBy.create(project, user)
+        Permission.create(project, user)
+        return project
 
     def add_user(self, user):
         assert isinstance(user, User)
@@ -19,5 +21,11 @@ class Project(BaseVertex):
     def add_group(self, group):
         assert isinstance(group, Group)
 
+
 class HasProject(BaseEdge):
     pass
+
+
+class Permission(BaseEdge):
+    pass
+

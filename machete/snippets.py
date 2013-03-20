@@ -18,12 +18,10 @@ def create_wiki():
     return
 
 
-def create_project(users=[]):
+def create_project(user):
     name = "Test Project {}".format(uuid.uuid4().hex)
-    p = Project.create(name=name)
-    for u in users:
-        p.add_user(u)
-    return p
+    project = Project.create(name=name, user=user)
+    return project
 
 
 

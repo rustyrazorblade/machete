@@ -1,3 +1,4 @@
+from machete import snippets
 from machete.issues.models import Issue, Severity, HasSeverity, AssignedTo, Status, Project
 
 import unittest
@@ -11,7 +12,8 @@ class CreateTest(unittest.TestCase):
     
     def test_should_be_able_to_create_new_issue(self):
         """Should be able to create a new issue and get all related objects"""
-        project = Project.create(name="test project")
+        user = snippets.create_user()
+        project = Project.create(name="test project", user=user)
         severity = Severity.create(name="Low Unbreak Now!")
         status = Status.create(name="Open")
 
