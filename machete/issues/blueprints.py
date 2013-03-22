@@ -18,3 +18,7 @@ class IssuesView(FlaskView):
         return render("issues/create.mako", {"project":project})
 
 
+    @route("<uuid:project>/issues/")
+    def post(self, project):
+
+        return

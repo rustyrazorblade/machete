@@ -1,7 +1,7 @@
 import thunderdome
-from machete.base.models import BaseVertex, BaseEdge
+from machete.base.models import BaseVertex, BaseEdge, CreatedBy
 from machete.projects.models import HasProject, Project
-
+from machete.users.models import User
 
 
 class Issue(BaseVertex):
@@ -9,16 +9,18 @@ class Issue(BaseVertex):
     description = thunderdome.String()
 
     @classmethod
-    def create(cls, description, project, severity, status):
+    def create(cls, user, description, project, severity, status):
         assert isinstance(project, Project)
         assert isinstance(severity, Severity)
         assert isinstance(status, Status)
+        assert isinstance(user, User)
 
         issue = super(Issue, cls).create(description=description)
 
         HasProject.create(issue, project)
         HasStatus.create(issue, status)
         HasSeverity.create(issue, severity)
+        CreatedBy.create(issue, user)
 
         return issue
 

@@ -17,7 +17,7 @@ class CreateTest(unittest.TestCase):
         severity = Severity.create(name="Low Unbreak Now!")
         status = Status.create(name="Open")
 
-        issue = Issue.create(description="Hey Jon, here's a bug for ya!", project=project,
+        issue = Issue.create(user, description="Hey Jon, here's a bug for ya!", project=project,
                              severity=severity, status=status)
 
         assert issue.severity == severity
