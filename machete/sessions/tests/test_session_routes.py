@@ -1,7 +1,16 @@
-from machete.base.tests import BaseIntegrationTestCase
+from uuid import uuid4
+from flask.ext.testing import TestCase
+from machete.base.tests import IntegrationTestCase
 from machete.sessions.models import Authenticates, Session
+from machete.users.models import User
 
-class SessionApiTestCase(BaseIntegrationTestCase):
+class SessionApiTestCase(IntegrationTestCase):
+
+    def setUp(self):
+        super(SessionApiTestCase, self).setUp(False)
+        self.email = uuid4().hex + '@gmail.com'
+        self.passwd = uuid4().hex
+        self.user = User.create(self.email, self.passwd, 'Testo')
 
     def test_success_case(self):
 
