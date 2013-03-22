@@ -20,7 +20,7 @@ def create_wiki():
 
 def create_project(user):
     name = "Test Project {}".format(uuid.uuid4().hex)
-    project = Project.create(name=name, user=user)
+    project = Project.create_with_defaults(name=name, user=user)
     return project
 
 

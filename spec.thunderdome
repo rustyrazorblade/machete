@@ -8,6 +8,7 @@
     {"type": "property", "name": "element_type", "data_type": "String"},
     {"type": "property", "name": "email", "data_type": "String", "locking": true, "indexed":true, "unique":true},
     {"type": "property", "name": "description", "data_type": "String"},
+    {"type": "property", "name": "level", "data_type": "Integer"},
 
     {"type": "edge", "label": "member_of"},
     {"type": "edge", "label": "assigned_to"},

@@ -9,11 +9,28 @@ class Project(BaseVertex):
 
     @classmethod
     def create(cls, name, user):
+
         assert isinstance(user, User)
         project = super(Project, cls).create(name=name)
         CreatedBy.create(project, user)
         Permission.create(project, user)
-        # create default status
+        return project
+
+    @classmethod
+    def create_with_defaults(cls, name, user):
+        from machete.issues.models import Status, HasStatus, Severity, HasSeverity
+
+        project = cls.create(name, user)
+        default_status = ["Open", "Closed"]
+
+        for name in default_status:
+            status = Status.create(name=name)
+            HasStatus.create(project, status)
+
+        default_severity = {"Low":10, "Medium":50, "High":90}
+        for name,level in default_severity.iteritems():
+            status = Severity.create(name=name, level=level)
+            HasSeverity.create(project, status)
 
         return project
 

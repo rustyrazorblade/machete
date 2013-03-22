@@ -23,5 +23,7 @@ class CreateTest(unittest.TestCase):
         assert issue.severity == severity
         assert issue in severity.issues
 
-        with self.assertRaises(ValueError):
-            HasSeverity.create(issue, severity)
+        issue.severity = severity
+
+
+

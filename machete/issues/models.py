@@ -33,6 +33,17 @@ class Issue(BaseVertex):
         result = self.outV(HasSeverity)
         return result[0] if result else None
 
+    @severity.setter
+    def severity(self, severity):
+        # if a severity is already set, set the new one, then break the old
+        assert isinstance(severity, Severity)
+        existing = self.outE(HasSeverity)
+        new_severity = HasSeverity.create(self, severity)
+
+        if existing:
+            existing[0].delete()
+
+
 class IssueProxy(object):
     def __init__(self, user):
         self.user = user
@@ -56,6 +67,7 @@ class Status(BaseVertex):
     however there's complex workflows that use QA, Deployed, etc
     """
     name = thunderdome.String()
+    level = thunderdome.Integer()
 
 
 class HasStatus(BaseEdge):
@@ -79,32 +91,6 @@ class Severity(BaseVertex):
         
 class HasSeverity(BaseEdge):
     """Edge connecting an issue to its severity"""
-
-    @classmethod
-    def create(cls, issue, severity):
-        """
-        Create a new edge associating and issue with a severity. Raises an
-        exception if there is already a severity associated with the given
-        issue. (functional edge)
-
-        :rtype: machete.issues.models.HasSeverity
-        
-        """
-        if issue.severity is not None:
-            raise ValueError(
-                'issue {} already has an associated severity'.format(issue)
-            )
-        return super(HasSeverity, cls).create(issue, severity)
-        
-    @property
-    def issue(self):
-        """
-        Return the issue associated with this caliber.
-
-        :rtype: machete.issues.models.Issue
-                
-        """
-        return self.outV()
 
     @property
     def severity(self):
