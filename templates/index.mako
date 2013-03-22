@@ -7,6 +7,15 @@
     <div class="container">
         <div class="row">
             <div class="span8">
+
+                <h3>Projects</h3>
+                <table class="table table-striped">
+                    % for p in projects:
+                        <tr>
+                            <td><a href="/projects/${p.vid}">${p.name}</a></td>
+                        </tr>
+                    % endfor
+                </table>
                 <h3>Questions</h3>
                     <table class="table table-striped">
                         <tr>
@@ -15,6 +24,7 @@
                     </table>
                     <a>More questions...</a>
             </div>
+
             <div class="span4">
                 <h3>Issues</h3>
                 <table class="table table-striped">

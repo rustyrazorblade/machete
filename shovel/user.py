@@ -16,3 +16,8 @@ def create(email, password, name=None):
     :return:
     """
     user = User.create(email, password, name)
+
+@task
+def projects(email):
+    user = User.get_by_email(email)
+    print user.projects

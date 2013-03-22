@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, session
 
 from machete.issues.blueprints import IssuesView
 from machete.questions.blueprints import QuestionsView
@@ -30,7 +30,15 @@ ProjectsView.register(app)
 
 @app.route("/")
 def index():
-    return render('index.mako')
+    tvars = {}
+
+    try:
+        tvars['projects'] = session.user.projects
+    except:
+        tvars['projects'] = []
+
+
+    return render('index.mako', tvars)
 
 if __name__ == "__main__":
     app.run()

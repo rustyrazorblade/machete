@@ -1,6 +1,6 @@
 
 import thunderdome
-from machete.base import BaseVertex, BaseEdge, CreatedBy
+from machete.base.models import BaseVertex, BaseEdge, CreatedBy
 from machete.users.models import User, Group
 
 

@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from flask.sessions import SessionMixin
 import thunderdome
 
-from machete.base import BaseVertex, BaseEdge
+from machete.base.models import BaseVertex, BaseEdge
 from machete.users.models import User
 
 class Authenticates(BaseEdge):

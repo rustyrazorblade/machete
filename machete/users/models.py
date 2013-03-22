@@ -1,7 +1,7 @@
 
 from passlib.hash import sha256_crypt
 import thunderdome
-from machete.base import BaseVertex, BaseEdge
+from machete.base.models import BaseVertex, BaseEdge
 
 
 class User(BaseVertex):
@@ -37,6 +37,12 @@ class User(BaseVertex):
 
     def authenticate(self, password):
         return sha256_crypt.verify(password, self.password)
+
+    @property
+    def projects(self):
+        from machete.projects.models import Permission
+        return self.inV(Permission)
+
 
 
 class Group(BaseVertex):

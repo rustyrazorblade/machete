@@ -1,5 +1,5 @@
 import thunderdome
-from machete.base import BaseVertex, BaseEdge
+from machete.base.models import BaseVertex, BaseEdge
 from machete.projects.models import HasProject, Project
 
 
