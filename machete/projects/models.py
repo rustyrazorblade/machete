@@ -13,6 +13,8 @@ class Project(BaseVertex):
         project = super(Project, cls).create(name=name)
         CreatedBy.create(project, user)
         Permission.create(project, user)
+        # create default status
+
         return project
 
     def add_user(self, user):
