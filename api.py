@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, session
+from machete.base.routes import UUIDConverter
 
 from machete.issues.blueprints import IssuesView
 from machete.questions.blueprints import QuestionsView
@@ -20,6 +21,7 @@ app.session_interface = SessionManager()
 #base_dir = os.path.split(os.getcwd())[0]
 base_dir = os.getcwd()
 setup([base_dir + '/templates'], base_dir + '/static', debug=app.debug)
+app.url_map.converters['uuid'] = UUIDConverter
 
 IssuesView.register(app)
 LoginView.register(app)
@@ -27,6 +29,7 @@ LogoutView.register(app)
 QuestionsView.register(app)
 WikiView.register(app)
 ProjectsView.register(app)
+
 
 @app.route("/")
 def index():
