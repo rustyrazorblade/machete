@@ -41,7 +41,8 @@ class Issue(BaseVertex):
         new_severity = HasSeverity.create(self, severity)
 
         if existing:
-            existing[0].delete()
+            for x in existing:
+                x.delete()
 
 
 class IssueProxy(object):
