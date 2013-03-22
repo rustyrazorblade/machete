@@ -2,3 +2,5 @@
 .noseids
 *.pyc
 *.iml
+.DS_Store
+node_modules/
