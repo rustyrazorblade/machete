@@ -1,4 +1,5 @@
 from flask.ext.classy import FlaskView, route
+from machete.projects.models import Project
 
 from machete.templating import render
 from machete.issues.models import Issue, IssueList
@@ -11,7 +12,9 @@ class IssuesView(FlaskView):
 
         return render("issues.mako")
 
-    def create(self):
-        return render("issues/create.mako")
+    @route("<uuid:project>/issues/create")
+    def create(self, project):
+        project = Project.get(project)
+        return render("issues/create.mako", {"project":project})
 
 

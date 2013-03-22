@@ -9,5 +9,5 @@ from machete.projects.models import Project
 @task
 def create(name, email):
     user = User.get_by_email(email)
-    project = Project.create(name, user)
+    project = Project.create_with_defaults(name, user)
     print "Created project {}".format(name)
