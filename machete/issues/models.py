@@ -6,16 +6,18 @@ from machete.users.models import User
 
 class Issue(BaseVertex):
     """Represents an issue in machete and associated information."""
+    name = thunderdome.String()
     description = thunderdome.String()
+    open = thunderdome.Boolean()
 
     @classmethod
-    def create(cls, user, description, project, severity, status):
+    def create(cls, user, name, description, project, severity, status, open=True):
         assert isinstance(project, Project)
         assert isinstance(severity, Severity)
         assert isinstance(status, Status)
         assert isinstance(user, User)
 
-        issue = super(Issue, cls).create(description=description)
+        issue = super(Issue, cls).create(name=name, description=description, open=open)
 
         HasProject.create(issue, project)
         HasStatus.create(issue, status)

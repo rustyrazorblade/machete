@@ -1,9 +1,10 @@
 from flask.ext.classy import FlaskView, route
-from flask import request, jsonify
+from flask import request, jsonify, session
 from machete.projects.models import Project
 
 from machete.templating import render
-from machete.issues.models import Issue, IssueList
+from machete.issues.models import Issue, IssueList, Severity
+
 
 class IssuesView(FlaskView):
     route_base = "/projects/"
@@ -21,4 +22,10 @@ class IssuesView(FlaskView):
 
     @route("<uuid:project>/issues", methods=["POST"])
     def post(self, project):
-        return jsonify({"test":"hi"})
+        project = Project.get(project)
+        form = request.form
+        severity = Severity.get(form['severity'])
+
+        issue = Issue.create(session.user, form['name'], form['description'], project, severity)
+        return jsonify(issue)
+
