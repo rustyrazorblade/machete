@@ -15,7 +15,6 @@
         <link href="${url_for('static', filename='bootstrap/css/bootstrap.min.css')}" rel="stylesheet" media="screen">
     </%block>
 
-    <script src="${url_for('static', filename='js/machete.js')}" language="javascript" type="text/javascript"></script>
 
 </head>
 <body>
@@ -68,6 +67,7 @@
     <%block name="scripts">
         <script src="http://code.jquery.com/jquery.js"></script>
         <script src="${url_for('static', filename='bootstrap/js/bootstrap.min.js')} "></script>
+        <script src="${url_for('static', filename='js/machete.js')}"></script>
     </%block>
 </body>
 </html>
