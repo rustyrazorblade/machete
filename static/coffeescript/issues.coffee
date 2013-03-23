@@ -1,4 +1,7 @@
 $ ->
   $("#create_issue").submit ->
-    alert "hey there"
+    $.post this.action, $(this).serialize(), (response) ->
+        alert "hi"
+
+    return false
 
