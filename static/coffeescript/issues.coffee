@@ -1,7 +1,7 @@
 $ ->
   $("#create_issue").submit ->
     $.post this.action, $(this).serialize(), (response) ->
-        alert "hi"
+        issue = response.data
 
     return false
 
