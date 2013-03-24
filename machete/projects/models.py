@@ -13,6 +13,7 @@ class Project(BaseVertex):
         assert isinstance(user, User)
         project = super(Project, cls).create(name=name)
         CreatedBy.create(project, user)
+        project.add_user(user)
         Permission.create(project, user)
         return project
 
@@ -36,6 +37,7 @@ class Project(BaseVertex):
 
     def add_user(self, user):
         assert isinstance(user, User)
+        Permission.create(self, user)
 
     def add_group(self, group):
         assert isinstance(group, Group)

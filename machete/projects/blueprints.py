@@ -5,6 +5,8 @@ from machete.base.response import success
 from machete.templating import render
 
 from machete.projects.models import Project
+from machete.users.models import User
+
 
 class ProjectsView(FlaskView):
     def index(self):
@@ -26,10 +28,11 @@ class ProjectMemberView(FlaskView):
     def index(self, project):
         return render("projects/members/index.mako")
 
-    @route("<uuid:project>/members/")
+    @route("<uuid:project>/members/", methods=["POST"])
     def post(self, project):
-        import ipdb; ipdb.set_trace()
         project = Project.get(project)
+        user = User.get(request.form['user'])
+        project.add_user(user)
         return success({})
 
     def delete(self):
