@@ -8,6 +8,8 @@
     {"type": "property", "name": "element_type", "data_type": "String"},
     {"type": "property", "name": "email", "data_type": "String", "locking": true, "indexed":true, "unique":true},
     {"type": "property", "name": "description", "data_type": "String"},
+    {"type": "property", "name": "project_id", "data_type": "String"},
+    {"type": "property", "name": "severity_id", "data_type": "String"},
     {"type": "property", "name": "level", "data_type": "Integer"},
     {"type": "property", "name": "open", "data_type": "Boolean"},
 

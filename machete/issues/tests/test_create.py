@@ -41,7 +41,7 @@ class CreateIntegrationTest(IntegrationTestCase):
 
         assert data['name'] == js['name']
         assert data['description'] == js['description']
-        assert self.project.severities[0].vid == js['severity']['id']
+        assert self.project.severities[0].vid == js['severity_id']
 
 
 

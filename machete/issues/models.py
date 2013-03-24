@@ -6,16 +6,14 @@ from machete.users.models import User
 
 class Issue(BaseVertex):
     """Represents an issue in machete and associated information."""
-    name = thunderdome.String()
+    name        = thunderdome.String()
     description = thunderdome.String()
-    open = thunderdome.Boolean()
+    open        = thunderdome.Boolean()
 
-    @property
-    def json(self):
-        js = super(Issue, self).json
-        js['severity'] = self.severity
-        js['project'] = self.project
-        return js
+    # cached properties to avoid dozens of extra lookups
+    project_id  = thunderdome.String()
+    severity_id = thunderdome.String()
+
 
     @classmethod
     def create(cls, user, name, description, project, severity, open=True):
@@ -23,11 +21,13 @@ class Issue(BaseVertex):
         assert isinstance(severity, Severity)
         assert isinstance(user, User)
 
-        issue = super(Issue, cls).create(name=name, description=description, open=open)
+        issue = super(Issue, cls).create(name=name, description=description, open=open,
+                                         project_id = project.id)
 
-        HasProject.create(issue, project)
-        HasSeverity.create(issue, severity)
+
         CreatedBy.create(issue, user)
+        HasProject.create(issue, project)
+        issue.severity = severity
 
         return issue
 
@@ -48,6 +48,8 @@ class Issue(BaseVertex):
         assert isinstance(severity, Severity)
         existing = self.outE(HasSeverity)
         new_severity = HasSeverity.create(self, severity)
+        self.severity_id = severity.id
+        self.save()
 
         for x in existing:
             x.delete()
