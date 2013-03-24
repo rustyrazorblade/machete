@@ -4,7 +4,6 @@ from flask import current_app, request
 import simplejson as _json
 from simplejson import dumps
 from datetime import datetime
-from werkzeug.http import http_date
 
 
 class JSONEncoder(_json.JSONEncoder):
