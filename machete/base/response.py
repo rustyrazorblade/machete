@@ -10,12 +10,6 @@ from werkzeug.http import http_date
 class JSONEncoder(_json.JSONEncoder):
     """
     Modified flask encoder from master, supporting python datetimes and .json
-
-    The default Flask JSON encoder.  This one extends the default simplejson
-    encoder by also supporting ``datetime`` objects as well as ``Markup``
-    objects which are serialized as RFC 822 datetime strings (same as the HTTP
-    date format).  In order to support more data types override the
-    :meth:`default` method.
     """
 
     def default(self, o):
