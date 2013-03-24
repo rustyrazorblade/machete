@@ -40,6 +40,11 @@ class Project(BaseVertex):
     def add_group(self, group):
         assert isinstance(group, Group)
 
+    @property
+    def severities(self):
+        from machete.issues.models import HasSeverity
+        return self.outV(HasSeverity)
+
 
 class HasProject(BaseEdge):
     pass

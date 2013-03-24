@@ -4,7 +4,6 @@ from flask.ext.classy import FlaskView, route
 from machete.templating import render
 from machete.users.models import User
 
-@route('/login')
 class LoginView(FlaskView):
 
     def get(self):

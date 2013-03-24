@@ -10,17 +10,21 @@ class Issue(BaseVertex):
     description = thunderdome.String()
     open = thunderdome.Boolean()
 
+    @property
+    def json(self):
+        js = super(Issue, self).json
+        js['severity'] = self.severity
+        return js
+
     @classmethod
-    def create(cls, user, name, description, project, severity, status, open=True):
+    def create(cls, user, name, description, project, severity, open=True):
         assert isinstance(project, Project)
         assert isinstance(severity, Severity)
-        assert isinstance(status, Status)
         assert isinstance(user, User)
 
         issue = super(Issue, cls).create(name=name, description=description, open=open)
 
         HasProject.create(issue, project)
-        HasStatus.create(issue, status)
         HasSeverity.create(issue, severity)
         CreatedBy.create(issue, user)
 

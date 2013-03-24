@@ -1,5 +1,4 @@
 from uuid import uuid4
-from flask.ext.testing import TestCase
 from machete.base.tests import IntegrationTestCase
 from machete.sessions.models import Authenticates, Session
 from machete.users.models import User

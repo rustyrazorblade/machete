@@ -1,4 +1,5 @@
 from machete import snippets
+from machete.base.tests import IntegrationTestCase
 from machete.issues.models import Issue, Severity, HasSeverity, AssignedTo, Status, Project
 
 import unittest
@@ -17,13 +18,30 @@ class CreateTest(unittest.TestCase):
         severity = Severity.create(name="Low Unbreak Now!")
         status = Status.create(name="Open")
 
-        issue = Issue.create(user, name="test issue", description="Hey Jon, here's a bug for ya!", project=project,
-                             severity=severity, status=status)
+        issue = Issue.create(user, name="test issue",
+                             description="Hey Jon, here's a bug for ya!",
+                             project=project, severity=severity)
 
         assert issue.severity == severity
         assert issue in severity.issues
 
         issue.severity = severity
+
+
+class CreateIntegrationTest(IntegrationTestCase):
+    def test_create_issue(self):
+        url = "/projects/{}/issues/".format(self.project.vid)
+        data = {"name":"some issue",
+                "description":"shut up",
+                "severity":self.project.severities[0].vid}
+
+        response = self.post(url, data)
+        self.assert200(response)
+        js = response.json['data']
+
+        assert data['name'] == js['name']
+        assert data['description'] == js['description']
+        assert self.project.severities[0].vid == js['severity']['id']
 
 
 

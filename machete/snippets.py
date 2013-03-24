@@ -4,11 +4,12 @@ from machete.projects.models import Project
 
 from machete.users.models import User, Group
 
+password = "test123"
 
 def create_user():
     email = uuid.uuid4().hex + "@example.com"
     name = "test " + uuid.uuid4().hex
-    return User.create(email, "test123", name)
+    return User.create(email, password, name)
 
 
 def create_group():
