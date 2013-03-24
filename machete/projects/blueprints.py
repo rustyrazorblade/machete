@@ -1,5 +1,6 @@
 from flask import redirect, request, session
 from flask.ext.classy import FlaskView, route
+from machete.base.response import success
 
 from machete.templating import render
 
@@ -18,3 +19,18 @@ class ProjectsView(FlaskView):
                                             "issues": issues})
 
 
+class ProjectMemberView(FlaskView):
+    route_base = "/projects/"
+
+    @route("<uuid:project>/members/")
+    def index(self, project):
+        return render("projects/members/index.mako")
+
+    @route("<uuid:project>/members/")
+    def post(self, project):
+        import ipdb; ipdb.set_trace()
+        project = Project.get(project)
+        return success({})
+
+    def delete(self):
+        return success({})

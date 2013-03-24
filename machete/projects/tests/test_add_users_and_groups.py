@@ -17,3 +17,5 @@ class AddToProjectTest(TestCase):
     def test_add_group(self):
         group = snippets.create_group()
         self.project.add_group(group)
+
+
