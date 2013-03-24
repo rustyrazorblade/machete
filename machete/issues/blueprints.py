@@ -15,6 +15,11 @@ class IssuesView(FlaskView):
 
         return render("issues.mako")
 
+    @route("<uuid:project>/issues/<uuid:issue>")
+    def get(self, project, issue):
+        issue = Issue.get(issue)
+        return render("issues/get.mako", {"issue": issue})
+
     @route("<uuid:project>/issues/create")
     def create(self, project):
         project = Project.get(project)

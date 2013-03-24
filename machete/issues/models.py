@@ -14,6 +14,7 @@ class Issue(BaseVertex):
     def json(self):
         js = super(Issue, self).json
         js['severity'] = self.severity
+        js['project'] = self.project
         return js
 
     @classmethod
@@ -50,6 +51,10 @@ class Issue(BaseVertex):
 
         for x in existing:
             x.delete()
+
+    @property
+    def project(self):
+        return self.outV(HasProject)[0]
 
 
 class IssueProxy(object):
