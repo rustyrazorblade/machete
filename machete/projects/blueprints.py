@@ -35,5 +35,8 @@ class ProjectMemberView(FlaskView):
         project.add_user(user)
         return success({})
 
-    def delete(self):
+    @route("<uuid:project>/members/<uuid:user>", methods=["DELETE"])
+    def delete(self, project, user):
+        project = Project.get(project)
+        user = User.get(user)
         return success({})

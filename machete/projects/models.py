@@ -39,6 +39,11 @@ class Project(BaseVertex):
         assert isinstance(user, User)
         Permission.create(self, user)
 
+    def remove_user(self, user):
+        assert isinstance(user, User)
+        tmp = Permission.get_between(self, user)
+        tmp.delete()
+
     def add_group(self, group):
         assert isinstance(group, Group)
 

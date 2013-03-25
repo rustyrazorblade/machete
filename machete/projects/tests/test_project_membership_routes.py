@@ -9,3 +9,13 @@ class AddUserToProjectTest(IntegrationTestCase):
         response = self.post(url, {"user":user.id})
         self.assert200(response)
 
+class RemoveUserFromProjectTest(IntegrationTestCase):
+    def test_add_user(self):
+        user = snippets.create_user()
+        self.project.add_user(user)
+
+        url = "/projects/{}/members/{}".format(self.project.id, self.user.id)
+
+        response = self.delete(url)
+        self.assert200(response)
+
