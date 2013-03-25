@@ -1,11 +1,24 @@
 from flask import redirect, request, session
 from flask.ext.classy import FlaskView, route
 from machete.base.response import success
+from machete.base.routes import UUIDConverter
 
 from machete.templating import render
 
 from machete.projects.models import Project
 from machete.users.models import User
+
+class ProjectConverter(UUIDConverter):
+    """Performs URL parameter validation against a UUID.
+
+    Example:
+
+    @app.route('/<projectid:uid>')
+
+    """
+
+    def to_python(self, value):
+        return Project.get(value)
 
 
 class ProjectsView(FlaskView):
@@ -14,7 +27,6 @@ class ProjectsView(FlaskView):
         return render('projects.mako')
 
     def get(self, id):
-        project = Project.get(id)
         issues = []
 
         return render('projects/get.mako', {"project":project,
@@ -24,19 +36,17 @@ class ProjectsView(FlaskView):
 class ProjectMemberView(FlaskView):
     route_base = "/projects/"
 
-    @route("<uuid:project>/members/")
+    @route("<project:project>/members/")
     def index(self, project):
         return render("projects/members/index.mako")
 
-    @route("<uuid:project>/members/", methods=["POST"])
+    @route("<project:project>/members/", methods=["POST"])
     def post(self, project):
-        project = Project.get(project)
         user = User.get(request.form['user'])
         project.add_user(user)
         return success({})
 
-    @route("<uuid:project>/members/<uuid:user>", methods=["DELETE"])
+    @route("<project:project>/members/<uuid:user>", methods=["DELETE"])
     def delete(self, project, user):
-        project = Project.get(project)
         user = User.get(user)
         return success({})
