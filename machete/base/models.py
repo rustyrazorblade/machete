@@ -1,8 +1,11 @@
 from datetime import datetime
 from thunderdome.connection import setup
 import thunderdome
+from machete.base.config import config
 
-setup(["localhost"], "machete", index_all_fields=False)
+host = config["rexster_host"]
+
+setup([host], "machete", index_all_fields=False)
 
 
 class BaseVertex(thunderdome.Vertex):
