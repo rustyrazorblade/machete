@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+
+import nose.core
+import os
+
+os.environ["MACHETE_CONFIG"] = "machete.testing.cfg"
+
+if __name__ == "__main__":
+    nose.core.main()
+
