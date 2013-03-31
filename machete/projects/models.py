@@ -23,6 +23,11 @@ class Project(BaseVertex):
 
         return project
 
+    @property
+    def wiki(self):
+        from machete.wiki.models import Wiki, HasWiki
+        return self.outV(HasWiki)[0]
+
     @classmethod
     def create_with_defaults(cls, name, user):
         from machete.issues.models import Status, HasStatus, Severity, HasSeverity
