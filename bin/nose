@@ -2,8 +2,16 @@
 
 import nose.core
 import os
+import shutil
 
 os.environ["MACHETE_CONFIG"] = "machete.testing.cfg"
+from thunderdome.connection import sync_spec
+
+sync_spec('spec.thunderdome', 'localhost', 'machete')
+
+# clean out the wikis directory
+shutil.rmtree('wikis')
+
 
 if __name__ == "__main__":
     nose.core.main()

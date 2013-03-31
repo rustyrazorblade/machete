@@ -15,6 +15,12 @@ class Project(BaseVertex):
         CreatedBy.create(project, user)
         project.add_user(user)
         Permission.create(project, user)
+
+        # create wiki
+        from machete.wiki.models import Wiki, HasWiki
+        wiki = Wiki.create()
+        HasWiki.create(project, wiki)
+
         return project
 
     @classmethod

@@ -6,38 +6,34 @@ from machete.base.models import BaseVertex, BaseEdge
 from machete.base.config import config
 
 class Wiki(BaseVertex):
-    location = thunderdome.Text()
 
     @classmethod
     def create(cls):
-        repo = git.Repo.init("/tmp/test_repo.git", bare=True)
+        wiki = super(Wiki, cls).create()
+        repo = git.Repo.init(wiki.location)
+        return wiki
 
     @property
     def repo(self):
-        return git.Repo()
+        return git.Repo(self.location)
 
     @property
-    def abs_location(self):
-        return ""
+    def location(self):
+        return "{}/{}".format(config['wiki_dir'], self.id)
+
 
 class Page(BaseVertex):
     text = thunderdome.Text()
     rendered_text = thunderdome.Text()
 
+    @classmethod
+    def create(cls):
+        pass
+
     @property
     def wiki(self):
         self.inV(HasPage)[0]
 
-    def save(self):
-        # commit change to git repo
-        # if successful, go ahead and save the changes
-
-        index.add(['my_new_file'])      # add a new file to the index
-        index.remove(['dir/existing_file'])
-        new_commit = index.commit("my commit message")
-
-        tmp = super(Page, self).save()
-        return tmp
 
 class HasPage(BaseEdge):
     pass

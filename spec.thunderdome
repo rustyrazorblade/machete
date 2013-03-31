@@ -21,6 +21,7 @@
     {"type": "edge", "label": "has_status", "functional":false},
     {"type": "edge", "label": "has_project", "functional":false},
     {"type": "edge", "label": "has_severity", "functional":false},
+    {"type": "edge", "label": "has_wiki", "functional":false},
 
     {"type": "property", "name": "expires", "data_type": "Double"},
     {"type": "property", "name": "data", "data_type": "HashMap"},
