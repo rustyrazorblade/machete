@@ -5,12 +5,19 @@ import os
 import shutil
 
 os.environ["MACHETE_CONFIG"] = "machete.testing.cfg"
+
+import sys
+sys.path.append("")
+
+from machete.base.config import config
 from thunderdome.connection import sync_spec
 
-sync_spec('spec.thunderdome', 'localhost', 'machete')
+host = config['rexster_host']
+
+sync_spec('spec.thunderdome', host, 'machete')
 
 # clean out the wikis directory
-shutil.rmtree('wikis')
+shutil.rmtree(config['wiki_dir'])
 
 
 if __name__ == "__main__":
