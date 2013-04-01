@@ -21,14 +21,17 @@ class Wiki(BaseVertex):
     def location(self):
         return "{}/{}".format(config['wiki_dir'], self.id)
 
+    def create_page(self, name, url, text):
+        p = Page.create(name=name, ulr=url, text=text)
+        HasPage.create(self, p)
+        return p
+
 
 class Page(BaseVertex):
     text = thunderdome.Text()
-    rendered_text = thunderdome.Text()
-
-    @classmethod
-    def create(cls):
-        pass
+    html = thunderdome.Text()
+    name = thunderdome.Text()
+    url  = thunderdome.Text()
 
     @property
     def wiki(self):

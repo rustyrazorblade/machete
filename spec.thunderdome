@@ -9,7 +9,10 @@
     {"type": "property", "name": "email", "data_type": "String", "locking": true, "indexed":true, "unique":true},
     {"type": "property", "name": "description", "data_type": "String"},
     {"type": "property", "name": "project_id", "data_type": "String"},
+    {"type": "property", "name": "html", "data_type": "String"},
+    {"type": "property", "name": "text", "data_type": "String"},
     {"type": "property", "name": "severity_id", "data_type": "String"},
+    {"type": "property", "name": "url", "data_type": "String", "indexed":true},
     {"type": "property", "name": "level", "data_type": "Integer"},
     {"type": "property", "name": "open", "data_type": "Boolean"},
 
@@ -17,6 +20,7 @@
     {"type": "edge", "label": "assigned_to"},
     {"type": "edge", "label": "created_by"},
     {"type": "edge", "label": "permission"},
+    {"type": "edge", "label": "has_page"},
 
     {"type": "edge", "label": "has_status", "functional":false},
     {"type": "edge", "label": "has_project", "functional":false},
