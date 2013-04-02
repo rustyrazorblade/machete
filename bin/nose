@@ -17,8 +17,10 @@ host = config['rexster_host']
 sync_spec('spec.thunderdome', host, 'machete')
 
 # clean out the wikis directory
-shutil.rmtree(config['wiki_dir'])
-
+try:
+    shutil.rmtree(config['wiki_dir'])
+except:
+    pass
 
 if __name__ == "__main__":
     nose.core.main()

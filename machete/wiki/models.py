@@ -1,9 +1,11 @@
 
 import git
+import markdown
 
 import thunderdome
 from machete.base.models import BaseVertex, BaseEdge
 from machete.base.config import config
+
 
 class Wiki(BaseVertex):
 
@@ -36,6 +38,10 @@ class Page(BaseVertex):
     @property
     def wiki(self):
         self.inV(HasPage)[0]
+
+    def save(self, *args, **kwargs):
+        self.html = markdown.markdown(self.text, ['fenced_code', 'codehilite', 'tables', 'toc'])
+        return super(Page, self).save(*args, **kwargs)
 
 
 class HasPage(BaseEdge):
