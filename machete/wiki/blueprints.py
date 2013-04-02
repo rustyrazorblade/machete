@@ -16,7 +16,6 @@ class WikiView(FlaskView):
     @route("<project:project>/wiki/", methods=["POST"])
     def post(self, project):
         x = request.form
-
         page = project.wiki.create_page(x['name'], x['url'], x['text'])
         return success(page)
 

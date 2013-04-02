@@ -16,7 +16,8 @@ class CreatePageTest(TestCase):
 class PageIntegrationTest(IntegrationTestCase):
     def test_create_page(self):
         url = "/projects/{}/wiki/".format(self.project.vid)
-        response = self.post(url, {"url":"TestPage", "text":"this is a test"})
-        return
+        response = self.post(url, {"url":"TestPage",
+                                   "name":"Whatever bro",
+                                   "text":"this is a test"})
         self.assert200(response)
 
