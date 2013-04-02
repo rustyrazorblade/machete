@@ -1,11 +1,10 @@
 from flask.ext.classy import FlaskView, route
-from flask import request, jsonify, session
+from flask import request, session
 from machete.base.routes import UUIDConverter
-from machete.projects.models import Project
 
 from machete.templating import render
-from machete.issues.models import Issue, IssueList, Severity
-from machete.base.response import success, error
+from machete.issues.models import Issue, Severity
+from machete.base.response import success
 
 class IssueConverter(UUIDConverter):
     """Performs URL parameter validation against a UUID.

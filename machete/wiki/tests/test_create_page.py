@@ -1,4 +1,5 @@
 from unittest import TestCase
+from machete.base.tests import IntegrationTestCase
 from machete.wiki.models import Wiki, Page
 
 
@@ -10,4 +11,12 @@ class CreatePageTest(TestCase):
                                 u"this is a test")
         assert isinstance(page, Page)
         assert page.html == u'<p>this is a test</p>'
+
+
+class PageIntegrationTest(IntegrationTestCase):
+    def test_create_page(self):
+        url = "/projects/{}/wiki/".format(self.project.vid)
+        response = self.post(url, {"url":"TestPage", "text":"this is a test"})
+        return
+        self.assert200(response)
 
