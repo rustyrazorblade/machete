@@ -23,3 +23,7 @@ class WikiView(FlaskView):
         page = project.wiki.create_page(x['name'], x['url'], x['text'])
         return success(page)
 
+    @route("<project:project>/wiki/<string:page>", methods=["PUT"])
+    def put(self, project, name):
+        page = project.wiki.find_page(name)
+        return success(page)

@@ -28,6 +28,7 @@ class ProjectsView(FlaskView):
 
     def get(self, id):
         issues = []
+        project = Project.get(id)
 
         return render('projects/get.mako', {"project":project,
                                             "issues": issues})
