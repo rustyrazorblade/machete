@@ -21,3 +21,11 @@ class PageIntegrationTest(IntegrationTestCase):
                                    "text":"this is a test"})
         self.assert200(response)
 
+        url = "/projects/{}/wiki/TestPage".format(self.project.vid)
+        response = self.get(url)
+        self.assert200(response)
+
+        url = "/projects/{}/wiki/".format(self.project.vid)
+        response = self.get(url)
+        self.assert200(response)
+

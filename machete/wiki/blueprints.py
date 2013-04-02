@@ -9,8 +9,12 @@ from machete.base.response import success
 class WikiView(FlaskView):
     route_base = "/projects/"
 
+    @route("<project:project>/wiki/", methods=["GET"])
+    def index(self, project):
+        return render("wiki.mako")
+
     @route("<project:project>/wiki/<string:page>", methods=["GET"])
-    def index(self, project, page):
+    def get(self, project, page):
         return render("wiki.mako")
 
     @route("<project:project>/wiki/", methods=["POST"])
