@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session
+from flask import Flask, session, redirect
 from machete.base.routes import UUIDConverter
 
 from machete.issues.blueprints import IssuesView, IssueConverter
@@ -21,6 +21,7 @@ app.session_interface = SessionManager()
 #base_dir = os.path.split(os.getcwd())[0]
 base_dir = os.getcwd()
 setup([base_dir + '/templates'], base_dir + '/static', debug=app.debug)
+
 app.url_map.converters['uuid'] = UUIDConverter
 app.url_map.converters['project'] = ProjectConverter
 app.url_map.converters['issue'] = IssueConverter
@@ -38,10 +39,8 @@ ProjectMemberView.register(app)
 def index():
     tvars = {}
 
-    try:
-        tvars['projects'] = session.user.projects
-    except:
-        tvars['projects'] = []
+    if not session.user:
+        return redirect("/login/")
 
 
     return render('index.mako', tvars)

@@ -19,23 +19,16 @@ class IssueConverter(UUIDConverter):
         return Issue.get(value)
 
 class IssuesView(FlaskView):
-    route_base = "/projects/"
 
-    @route("<project:project>/issues")
-    def index(self, project):
-
+    def index(self):
         return render("issues.mako")
 
-    @route("<project:project>/issues/<issue:issue>")
-    def get(self, project, issue):
+    def get(self, issue):
         return render("issues/get.mako", {"issue": issue})
 
-    @route("<project:project>/issues/create")
     def create(self, project):
         return render("issues/create.mako", {"project":project})
 
-
-    @route("<project:project>/issues/", methods=["POST"])
     def post(self, project):
 
         form = request.form

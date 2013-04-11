@@ -23,12 +23,13 @@ class ProjectConverter(UUIDConverter):
 
 class ProjectsView(FlaskView):
     def index(self):
-        projects = session.user.projects
+
         return render('projects.mako')
 
     def get(self, id):
         issues = []
         project = Project.get(id)
+
 
         return render('projects/get.mako', {"project":project,
                                             "issues": issues})

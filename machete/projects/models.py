@@ -14,7 +14,6 @@ class Project(BaseVertex):
         project = super(Project, cls).create(name=name)
         CreatedBy.create(project, user)
         project.add_user(user)
-        Permission.create(project, user)
 
         # create wiki
         from machete.wiki.models import Wiki, HasWiki
@@ -69,5 +68,6 @@ class HasProject(BaseEdge):
 
 
 class Permission(BaseEdge):
+
     pass
 

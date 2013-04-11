@@ -14,5 +14,11 @@
             </tr>
         % endfor
         </table>
+
+        <h1>Wiki</h1>
+        <a href="/projects/${project.vid}/wiki/">Go to wiki</a>
+        <table>
+
+        </table>
     </div>
 </%block>

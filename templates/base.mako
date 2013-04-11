@@ -29,7 +29,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="brand" href="#">Machete</a>
+                        <a class="brand" href="/">Machete</a>
                         <div class="nav-collapse collapse">
                             <p class="navbar-text pull-right">
                                 <!-- put username here -->

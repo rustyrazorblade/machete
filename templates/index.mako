@@ -10,7 +10,7 @@
 
                 <h3>Projects</h3>
                 <table class="table table-striped">
-                    % for p in projects:
+                    % for p in session.user.projects:
                         <tr>
                             <td><a href="/projects/${p.vid}">${p.name}</a></td>
                         </tr>
