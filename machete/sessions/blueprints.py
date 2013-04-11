@@ -19,11 +19,15 @@ class LoginView(FlaskView):
         :return:
         """
         if 'email' in request.form and 'password' in request.form:
-            user = User.get_by_email(request.form.get('email'))
-            if user.authenticate(request.form.get('password')):
-                session.save()
-                session.user = user
-                return redirect('/')
+            try:
+                user = User.get_by_email(request.form.get('email'))
+                if user.authenticate(request.form.get('password')):
+                    session.save()
+                    session.user = user
+                    return redirect('/')
+            except:
+                return redirect("/login")
+
         return render('login.mako')
 
 @route('/logout')
