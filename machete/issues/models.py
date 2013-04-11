@@ -1,8 +1,21 @@
+
+
 import thunderdome
 from machete.base.models import BaseVertex, BaseEdge, CreatedBy
 from machete.projects.models import HasProject, Project
 from machete.users.models import User
 
+from pyes.es import ES
+from pyes.mappings import DocumentObjectField, StringField, IntegerField
+
+es = ES()
+es.create_index_if_missing('machete')
+
+
+
+issue_mapping = DocumentObjectField(name='issue')
+issue_mapping.add_property(StringField(name="name", store=True))
+issue_mapping.add_property(StringField(name="description", store=True))
 
 class Issue(BaseVertex):
     """Represents an issue in machete and associated information."""
@@ -37,7 +50,7 @@ class Issue(BaseVertex):
         Returns the severity associated with this issue
 
         :rtype: machete.issues.models.Severity or None
-        
+
         """
         result = self.outV(HasSeverity)
         return result[0] if result else None
@@ -57,6 +70,9 @@ class Issue(BaseVertex):
     @property
     def project(self):
         return self.outV(HasProject)[0]
+
+    def search(self, projects=[], assigned=[]):
+        return []
 
 
 class IssueProxy(object):
@@ -88,7 +104,7 @@ class Status(BaseVertex):
 class HasStatus(BaseEdge):
     pass
 
-        
+
 class Severity(BaseVertex):
     """Indicates the severity of an issue"""
     name = thunderdome.String()
@@ -99,11 +115,11 @@ class Severity(BaseVertex):
         Return a list of issues associated with this severity.
 
         :rtype: list
-        
+
         """
         return self.inV(HasSeverity)
 
-        
+
 class HasSeverity(BaseEdge):
     """Edge connecting an issue to its severity"""
 
@@ -113,10 +129,10 @@ class HasSeverity(BaseEdge):
         Return the severity associated with this caliber.
 
         :rtype: machete.issues.models.Severity
-        
+
         """
         return self.inV()
-        
+
 
 class AssignedTo(BaseEdge):
     """Edge associating an issue with a particular user or users"""
