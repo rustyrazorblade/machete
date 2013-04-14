@@ -6,16 +6,17 @@ from machete.projects.models import HasProject, Project
 from machete.users.models import User
 
 from pyes.es import ES
-from pyes.mappings import DocumentObjectField, StringField, IntegerField
 
 es = ES()
 es.create_index_if_missing('machete')
 
+issue_mapping =\
+    {
+        "id": { "store":"yes", "type":"string", "index":"not_analyzed" }
+    }
 
+es.put_mapping('issue', {"properties": issue_mapping}, ['machete'])
 
-issue_mapping = DocumentObjectField(name='issue')
-issue_mapping.add_property(StringField(name="name", store=True))
-issue_mapping.add_property(StringField(name="description", store=True))
 
 class Issue(BaseVertex):
     """Represents an issue in machete and associated information."""
