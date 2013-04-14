@@ -12,7 +12,9 @@ es.create_index_if_missing('machete')
 
 issue_mapping =\
     {
-        "id": { "store":"yes", "type":"string", "index":"not_analyzed" }
+        "id": { "store":"yes", "type":"string", "index":"not_analyzed"},
+        "name": {"store": "no", "type":"string", "index":"analyzed"},
+        "description": {"store":"no", "type":"string", "index":"analyzed"}
     }
 
 es.put_mapping('issue', {"properties": issue_mapping}, ['machete'])
