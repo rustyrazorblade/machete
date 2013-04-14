@@ -14,7 +14,10 @@ issue_mapping =\
     {
         "id": { "store":"yes", "type":"string", "index":"not_analyzed"},
         "name": {"store": "no", "type":"string", "index":"analyzed"},
-        "description": {"store":"no", "type":"string", "index":"analyzed"}
+        "description": {"store":"no", "type":"string", "index":"analyzed"},
+        "created_by_id": {"store":"no", "type":"string", "index":"not_analyzed"},
+        "assigned_to_id": {"store":"no", "type":"string", "index":"not_analyzed"},
+        "project_id": {"index":"not_analyzed", "type":"string"}
     }
 
 es.put_mapping('issue', {"properties": issue_mapping}, ['machete'])
