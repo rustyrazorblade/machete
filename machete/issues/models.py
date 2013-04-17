@@ -40,10 +40,11 @@ class Issue(BaseVertex):
         issue = super(Issue, cls).create(name=name, description=description, open=open,
                                          project_id = project.id)
 
-
         CreatedBy.create(issue, user)
         HasProject.create(issue, project)
         issue.severity = severity
+
+        issue.index()
 
         return issue
 
@@ -76,6 +77,20 @@ class Issue(BaseVertex):
 
     def search(self, projects=[], assigned=[]):
         return []
+
+    @property
+    def created_by(self):
+        return None
+
+    @property
+    def search_doc(self):
+        return {"id":self.id,
+                "name":self.name,
+                "description":self.description,
+                "created_by_id":self.created_by.id}
+
+    def index(self):
+        pass
 
 
 class IssueProxy(object):

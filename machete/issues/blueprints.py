@@ -31,8 +31,6 @@ class IssuesView(FlaskView):
         return render("issues/create.mako", {"project":project})
 
     def post(self):
-
-        import ipdb; ipdb.set_trace()
         form = request.form
         severity = Severity.get(form['severity'])
         project = Project.get(form['project'])

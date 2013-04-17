@@ -37,6 +37,12 @@ class TestSearch(TestCase):
 
         cls.project3.add_user(cls.user3)
 
+        sev = cls.project1.severities[0]
+        Issue.create(cls.user1, "some issue", "whatever dude", cls.project1, sev)
+        Issue.create(cls.user1, "some other issue", "lamb on the ground", cls.project1, sev)
+
+    def test_search_doc(self):
+        assert self.issue1.search_doc
 
     def test_assignment(self):
         assert False
