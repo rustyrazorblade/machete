@@ -10,7 +10,7 @@ class CreateTest(unittest.TestCase):
 
     def setUp(self):
         super(CreateTest, self).setUp()
-    
+
     def test_should_be_able_to_create_new_issue(self):
         """Should be able to create a new issue and get all related objects"""
         user = snippets.create_user()
@@ -30,8 +30,9 @@ class CreateTest(unittest.TestCase):
 
 class CreateIntegrationTest(IntegrationTestCase):
     def test_create_issue(self):
-        url = "/projects/{}/issues/".format(self.project.vid)
+        url = "/issues/"
         data = {"name":"some issue",
+                "project": self.project.vid,
                 "description":"shut up",
                 "severity":self.project.severities[0].vid}
 

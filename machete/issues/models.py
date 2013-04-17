@@ -6,9 +6,7 @@ from machete.projects.models import HasProject, Project
 from machete.users.models import User
 
 from pyes.es import ES
-
-es = ES()
-es.create_index_if_missing('machete')
+from machete.util import put_mapping, search
 
 issue_mapping =\
     {
@@ -20,8 +18,7 @@ issue_mapping =\
         "project_id": {"index":"not_analyzed", "type":"string"}
     }
 
-es.put_mapping('issue', {"properties": issue_mapping}, ['machete'])
-
+put_mapping('issue', issue_mapping)
 
 class Issue(BaseVertex):
     """Represents an issue in machete and associated information."""

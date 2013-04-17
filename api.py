@@ -34,6 +34,7 @@ WikiView.register(app)
 ProjectsView.register(app)
 ProjectMemberView.register(app)
 
+# set up search indexes
 
 @app.route("/")
 def index():

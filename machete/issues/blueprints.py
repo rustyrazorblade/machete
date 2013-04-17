@@ -1,6 +1,7 @@
 from flask.ext.classy import FlaskView, route
 from flask import request, session
 from machete.base.routes import UUIDConverter
+from machete.projects.models import Project
 
 from machete.templating import render
 from machete.issues.models import Issue, Severity
@@ -26,13 +27,15 @@ class IssuesView(FlaskView):
     def get(self, issue):
         return render("issues/get.mako", {"issue": issue})
 
-    def create(self, project):
+    def create(self):
         return render("issues/create.mako", {"project":project})
 
-    def post(self, project):
+    def post(self):
 
+        import ipdb; ipdb.set_trace()
         form = request.form
         severity = Severity.get(form['severity'])
+        project = Project.get(form['project'])
 
         issue = Issue.create(session.user, form['name'], form['description'], project, severity)
         return success(issue)
