@@ -5,7 +5,6 @@ from machete.base.models import BaseVertex, BaseEdge, CreatedBy
 from machete.projects.models import HasProject, Project
 from machete.users.models import User
 
-from pyes.es import ES
 from machete.util import put_mapping, search
 
 issue_mapping =\
@@ -84,13 +83,12 @@ class Issue(BaseVertex):
 
     @property
     def search_doc(self):
-        return {"id":self.id,
-                "name":self.name,
-                "description":self.description,
-                "created_by_id":self.created_by.id}
+        tmp = {"name":self.name,
+               "description":self.description}
+        return tmp
 
     def index(self):
-        pass
+        search.index(self.search_doc, 'machete', 'issue', self.id)
 
 
 class IssueProxy(object):

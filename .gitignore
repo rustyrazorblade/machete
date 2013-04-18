@@ -6,3 +6,4 @@
 node_modules/
 static/js/
 /graph/
+machete.cfg
