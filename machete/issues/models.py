@@ -94,12 +94,15 @@ class Issue(BaseVertex):
 
         project_filters = ORFilter([TermFilter("project_id", p.id) for p in projects])
 
+        # add assignment, lists, status, etc
+        filters = project_filters
+
         if search_text:
             query = StringQuery(search_text, search_fields=["name", "description"])
-            query = FilteredQuery(query, project_filters)
         else:
-            query = FilteredQuery(MatchAllQuery(), project_filters)
+            query = MatchAllQuery()
 
+        query = FilteredQuery(query, filters)
         results = search.search(query=query, indices="machete")
         return results
 
