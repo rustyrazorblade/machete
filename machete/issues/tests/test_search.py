@@ -10,6 +10,8 @@ from machete.issues.models import Issue
 
 # testing issue search should occur nowhere else.
 
+from machete.util import search
+
 class TestSearch(TestCase):
 
     @classmethod
@@ -41,6 +43,9 @@ class TestSearch(TestCase):
         Issue.create(cls.user1, "some issue", "whatever dude", cls.project1, sev)
         Issue.create(cls.user1, "some other issue", "lamb on the ground", cls.project1, sev)
 
+        search.refresh() # to ensure our stuff is going to be there when we search
+
+
     def test_search_doc(self):
         assert self.issue1.search_doc
 
@@ -48,7 +53,9 @@ class TestSearch(TestCase):
         assert False
 
     def test_project_filter(self):
-        assert False
+        # should return 2 issues created on project1
+        results = Issue.search(projects=[self.project1])
+        self.assertEquals(results.total, 2)
 
 
 

@@ -1,6 +1,10 @@
 
 
+from pyes.filters import TermFilter, ANDFilter, ORFilter
+from pyes.query import *
+
 import thunderdome
+
 from machete.base.models import BaseVertex, BaseEdge, CreatedBy
 from machete.projects.models import HasProject, Project
 from machete.users.models import User
@@ -10,7 +14,7 @@ from machete.util import put_mapping, search
 issue_mapping =\
     {
         "id": { "store":"yes", "type":"string", "index":"not_analyzed"},
-        "name": {"store": "no", "type":"string", "index":"analyzed"},
+        "name": {"store": "no", "type":"string", "index":"analyzed", "boost":1.5},
         "description": {"store":"no", "type":"string", "index":"analyzed"},
         "created_by_id": {"store":"no", "type":"string", "index":"not_analyzed"},
         "assigned_to_id": {"store":"no", "type":"string", "index":"not_analyzed"},
@@ -18,6 +22,11 @@ issue_mapping =\
     }
 
 put_mapping('issue', issue_mapping)
+
+
+class InvalidSearchException(Exception):
+    pass
+
 
 class Issue(BaseVertex):
     """Represents an issue in machete and associated information."""
@@ -74,8 +83,24 @@ class Issue(BaseVertex):
     def project(self):
         return self.outV(HasProject)[0]
 
-    def search(self, projects=[], assigned=[]):
-        return []
+    @classmethod
+    def search(self, projects=[], search_text = "", assigned=[], sort=None):
+        """
+        Search across projects, providing optional search text and other filters
+        """
+
+        if not projects:
+            raise InvalidSearchException("projects are required")
+
+        project_filters = ORFilter([TermFilter("project_id", p.id) for p in projects])
+
+        if search_text:
+            query = None
+        else:
+            query = FilteredQuery(MatchAllQuery(), project_filters)
+
+        results = search.search(query=query, indices="machete")
+        return results
 
     @property
     def created_by(self):
