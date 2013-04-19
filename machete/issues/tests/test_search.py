@@ -43,6 +43,10 @@ class TestSearch(TestCase):
         Issue.create(cls.user1, "some issue", "whatever dude", cls.project1, sev)
         Issue.create(cls.user1, "some other issue", "lamb on the ground", cls.project1, sev)
 
+        sev = cls.project2.severities[0]
+        Issue.create(cls.user1, "friendly hello", "hey there dude", cls.project2, sev)
+        Issue.create(cls.user1, "big problem", "pizza on the ground", cls.project2, sev)
+
         search.refresh() # to ensure our stuff is going to be there when we search
 
 
@@ -56,6 +60,10 @@ class TestSearch(TestCase):
         # should return 2 issues created on project1
         results = Issue.search(projects=[self.project1])
         self.assertEquals(results.total, 2)
+
+    def test_multiple_projects_filter(self):
+        results = Issue.search(projects=[self.project1, self.project2])
+        self.assertEquals(results.total, 4)
 
 
 
