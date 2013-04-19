@@ -109,7 +109,8 @@ class Issue(BaseVertex):
     @property
     def search_doc(self):
         tmp = {"name":self.name,
-               "description":self.description}
+               "description":self.description,
+               "project_id":self.project_id}
         return tmp
 
     def index(self):
