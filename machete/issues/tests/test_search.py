@@ -40,8 +40,8 @@ class TestSearch(TestCase):
         cls.project3.add_user(cls.user3)
 
         sev = cls.project1.severities[0]
-        cls.issue1 = Issue.create(cls.user1, "some issue", "whatever dude", cls.project1, sev)
-        cls.issue2 = Issue.create(cls.user1, "some other issue", "lamb on the ground", cls.project1, sev)
+        cls.issue1 = Issue.create(cls.user1, "first issue", "whatever dude", cls.project1, sev)
+        cls.issue2 = Issue.create(cls.user1, "second issue", "lamb on the ground", cls.project1, sev)
 
         sev = cls.project2.severities[0]
         Issue.create(cls.user1, "friendly hello", "hey there dude", cls.project2, sev)
@@ -65,6 +65,11 @@ class TestSearch(TestCase):
         results = Issue.search(projects=[self.project1, self.project2])
         self.assertEquals(results.total, 4)
 
+    def test_text_filter(self):
+        results = Issue.search(projects=[self.project1], search_text="whatever")
+        self.assertEquals(results.total, 1)
 
+        results = Issue.search(projects=[self.project1], search_text="first")
+        self.assertEquals(results.total, 1)
 
 

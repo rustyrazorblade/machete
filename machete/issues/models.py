@@ -95,7 +95,8 @@ class Issue(BaseVertex):
         project_filters = ORFilter([TermFilter("project_id", p.id) for p in projects])
 
         if search_text:
-            query = None
+            query = StringQuery(search_text, search_fields=["name", "description"])
+            query = FilteredQuery(query, project_filters)
         else:
             query = FilteredQuery(MatchAllQuery(), project_filters)
 
