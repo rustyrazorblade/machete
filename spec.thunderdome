@@ -23,14 +23,14 @@
     {"type": "property", "name": "data", "data_type": "HashMap"},
 
     {"type": "edge", "label": "assigned_to", "functional":true},
-    {"type": "edge", "label": "authenticates", "functional":true}
+    {"type": "edge", "label": "authenticates", "functional":true},
 
     {"type": "edge", "label": "member_of"},
     {"type": "edge", "label": "created_by"},
     {"type": "edge", "label": "permission"},
     {"type": "edge", "label": "has_page"},
     {"type": "edge", "label": "has_project"},
-    {"type": "edge", "label": "has_wiki"},
+    {"type": "edge", "label": "has_wiki"}
 
 ]
 

@@ -40,9 +40,8 @@ class Issue(BaseVertex):
 
 
     @classmethod
-    def create(cls, user, name, description, project, severity, open=True):
+    def create(cls, user, name, description, project,  open=True):
         assert isinstance(project, Project)
-        assert isinstance(severity, Severity)
         assert isinstance(user, User)
 
         issue = super(Issue, cls).create(name=name, description=description, open=open,
@@ -50,34 +49,11 @@ class Issue(BaseVertex):
 
         CreatedBy.create(issue, user)
         HasProject.create(issue, project)
-        issue.severity = severity
 
         issue.index()
 
         return issue
 
-    @property
-    def severity(self):
-        """
-        Returns the severity associated with this issue
-
-        :rtype: machete.issues.models.Severity or None
-
-        """
-        result = self.outV(HasSeverity)
-        return result[0] if result else None
-
-    @severity.setter
-    def severity(self, severity):
-        # if a severity is already set, set the new one, then break the old
-        assert isinstance(severity, Severity)
-        existing = self.outE(HasSeverity)
-        new_severity = HasSeverity.create(self, severity)
-        self.severity_id = severity.id
-        self.save()
-
-        for x in existing:
-            x.delete()
 
     @property
     def project(self):
