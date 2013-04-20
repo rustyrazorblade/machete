@@ -1,6 +1,7 @@
 [
 
     {"type": "defaults", "spec_type": "property", "functional": true, "indexed": false, "locking": false},
+    {"type": "defaults", "spec_type": "edge", "functional": false},
 
     {"type": "property", "name": "created_at", "data_type": "Double", "functional": true, "locking": false},
     {"type": "property", "name": "name", "data_type": "String"},
@@ -17,20 +18,19 @@
     {"type": "property", "name": "url", "data_type": "String", "indexed":true},
     {"type": "property", "name": "level", "data_type": "Integer"},
     {"type": "property", "name": "open", "data_type": "Boolean"},
+    {"type": "property", "name": "expires", "data_type": "Double"},
+
+    {"type": "property", "name": "data", "data_type": "HashMap"},
+
+    {"type": "edge", "label": "assigned_to", "functional":true},
+    {"type": "edge", "label": "authenticates", "functional":true}
 
     {"type": "edge", "label": "member_of"},
-    {"type": "edge", "label": "assigned_to"},
     {"type": "edge", "label": "created_by"},
     {"type": "edge", "label": "permission"},
     {"type": "edge", "label": "has_page"},
+    {"type": "edge", "label": "has_project"},
+    {"type": "edge", "label": "has_wiki"},
 
-    {"type": "edge", "label": "has_status", "functional":false},
-    {"type": "edge", "label": "has_project", "functional":false},
-    {"type": "edge", "label": "has_severity", "functional":false},
-    {"type": "edge", "label": "has_wiki", "functional":false},
-
-    {"type": "property", "name": "expires", "data_type": "Double"},
-    {"type": "property", "name": "data", "data_type": "HashMap"},
-    {"type": "edge", "label": "authenticates", "functional":true}
 ]
 

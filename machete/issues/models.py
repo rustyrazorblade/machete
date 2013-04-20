@@ -138,46 +138,7 @@ class IssueList(object):
     def next(self):
         return None
 
-class Status(BaseVertex):
-    """
-    in a normal system, issues will just be opened or closed
-    however there's complex workflows that use QA, Deployed, etc
-    """
-    name = thunderdome.String()
-    level = thunderdome.Integer()
 
-
-class HasStatus(BaseEdge):
-    pass
-
-
-class Severity(BaseVertex):
-    """Indicates the severity of an issue"""
-    name = thunderdome.String()
-
-    @property
-    def issues(self):
-        """
-        Return a list of issues associated with this severity.
-
-        :rtype: list
-
-        """
-        return self.inV(HasSeverity)
-
-
-class HasSeverity(BaseEdge):
-    """Edge connecting an issue to its severity"""
-
-    @property
-    def severity(self):
-        """
-        Return the severity associated with this caliber.
-
-        :rtype: machete.issues.models.Severity
-
-        """
-        return self.inV()
 
 
 class AssignedTo(BaseEdge):

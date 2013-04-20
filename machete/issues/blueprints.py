@@ -4,7 +4,7 @@ from machete.base.routes import UUIDConverter
 from machete.projects.models import Project
 
 from machete.templating import render
-from machete.issues.models import Issue, Severity
+from machete.issues.models import Issue
 from machete.base.response import success
 
 class IssueConverter(UUIDConverter):
@@ -32,9 +32,12 @@ class IssuesView(FlaskView):
 
     def post(self):
         form = request.form
-        severity = Severity.get(form['severity'])
         project = Project.get(form['project'])
 
-        issue = Issue.create(session.user, form['name'], form['description'], project, severity)
+        issue = Issue.create(session.user,
+                             form['name'],
+                             form['description'],
+                             project)
+
         return success(issue)
 

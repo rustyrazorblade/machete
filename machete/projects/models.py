@@ -29,20 +29,7 @@ class Project(BaseVertex):
 
     @classmethod
     def create_with_defaults(cls, name, user):
-        from machete.issues.models import Status, HasStatus, Severity, HasSeverity
-
         project = cls.create(name, user)
-        default_status = ["Open", "Closed"]
-
-        for name in default_status:
-            status = Status.create(name=name)
-            HasStatus.create(project, status)
-
-        default_severity = {"Low":10, "Medium":50, "High":90}
-        for name,level in default_severity.iteritems():
-            status = Severity.create(name=name, level=level)
-            HasSeverity.create(project, status)
-
         return project
 
     def add_user(self, user):
@@ -57,10 +44,6 @@ class Project(BaseVertex):
     def add_group(self, group):
         assert isinstance(group, Group)
 
-    @property
-    def severities(self):
-        from machete.issues.models import HasSeverity
-        return self.outV(HasSeverity)
 
 
 class HasProject(BaseEdge):
