@@ -41,7 +41,6 @@ class IssuesView(FlaskView):
 
         return success(issue)
 
-    @route("/issues/search")
     def search(self):
         pids = request.form['projects'].split(",")
         projects = Project.all(pids)

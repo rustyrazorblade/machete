@@ -16,8 +16,8 @@ issue_mapping =\
         "id": { "store":"yes", "type":"string", "index":"not_analyzed"},
         "name": {"store": "no", "type":"string", "index":"analyzed", "boost":1.5},
         "description": {"store":"no", "type":"string", "index":"analyzed"},
-        "created_by_id": {"store":"no", "type":"string", "index":"not_analyzed"},
-        "assigned_to_id": {"store":"no", "type":"string", "index":"not_analyzed"},
+        "created_by_id": {"store":"yes", "type":"string", "index":"not_analyzed"},
+        "assigned_to_id": {"store":"yes", "type":"string", "index":"not_analyzed"},
         "project_id": {"index":"not_analyzed", "type":"string"}
     }
 
@@ -38,9 +38,11 @@ class Issue(BaseVertex):
     project_id  = thunderdome.String()
     severity_id = thunderdome.String()
 
+    _assigned = None
+
 
     @classmethod
-    def create(cls, user, name, description, project,  open=True):
+    def create(cls, user, name, description, project, assigned=None, open=True):
         assert isinstance(project, Project)
         assert isinstance(user, User)
 
@@ -50,28 +52,76 @@ class Issue(BaseVertex):
         CreatedBy.create(issue, user)
         HasProject.create(issue, project)
 
+        if assigned:
+            AssignedTo.create(issue, assigned)
+
         issue.index()
 
         return issue
 
+    @property
+    def assigned(self):
+        if self._assigned:
+            return self._assigned
+        try:
+            tmp = self.outV(AssignedTo)[0]
+            self._assigned = tmp
+            return self._assigned
+        except:
+            return None
+
+
+    @assigned.setter
+    def assigned(self, user):
+        # if an assigned edge exists, remove it
+        existing = AssignedTo.get_between(self, user)
+        map(lambda x: x.delete(), existing)
+
+        # create new assigned edge
+        AssignedTo.create(self, user)
+
+        self.index()
+
 
     @property
     def project(self):
+        # TODO: memoize
         return self.outV(HasProject)[0]
 
     @classmethod
     def search(self, projects=[], search_text = "", assigned=[], sort=None):
         """
         Search across projects, providing optional search text and other filters
+
+        Projects are required, even if filtering by user.
+
+        At this level, we don't know who is performing the search, so we don't know
+        the scope that they are allowed to see
+
+        we treat lists of requirements as OR
+
+        for instance, if multiple users are passed in for assigned, we return results matching any of the users
+        in the list
+
+        in the case of multiple arguments being passed in, we AND.  For instance, for a search on 2 users and
+        2 projects:
+
+        (project1 or project1) AND (user1 or user2)
+
+        This lets people set up complex searches matching multiple criteria
         """
 
         if not projects:
             raise InvalidSearchException("projects are required")
 
-        project_filters = ORFilter([TermFilter("project_id", p.id) for p in projects])
+        filters = ORFilter([TermFilter("project_id", p.id) for p in projects])
 
-        # add assignment, lists, status, etc
-        filters = project_filters
+        if assigned and not isinstance(assigned, list):
+            assigned = [assigned]
+
+        if assigned:
+            user_filters = ORFilter([TermFilter("assigned_to_id", u.id) for u in assigned])
+            filters = ANDFilter([filters, user_filters])
 
         if search_text:
             query = StringQuery(search_text, search_fields=["name", "description"])
@@ -88,9 +138,16 @@ class Issue(BaseVertex):
 
     @property
     def search_doc(self):
+        """
+        generates a search doc for ES indexing
+        """
         tmp = {"name":self.name,
                "description":self.description,
                "project_id":self.project_id}
+
+        if self.assigned:
+            tmp["assigned_to_id"] = self.assigned.id
+
         return tmp
 
     def index(self):
@@ -107,6 +164,7 @@ class IssueList(object):
         self.limit = None
         self.status = []
         self._issues = []
+        self.total = 0
 
     def __iter__(self):
         return self
