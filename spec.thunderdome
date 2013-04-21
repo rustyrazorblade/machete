@@ -15,6 +15,7 @@
     {"type": "property", "name": "severity_id", "data_type": "String"},
     {"type": "property", "name": "wiki_id", "data_type": "String"},
     {"type": "property", "name": "lookup_url", "data_type": "String"},
+    {"type": "property", "name": "assigned_to_id", "data_type": "String"},
     {"type": "property", "name": "url", "data_type": "String", "indexed":true},
     {"type": "property", "name": "level", "data_type": "Integer"},
     {"type": "property", "name": "open", "data_type": "Boolean"},

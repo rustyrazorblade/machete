@@ -38,6 +38,9 @@ class Issue(BaseVertex):
     project_id  = thunderdome.String()
     severity_id = thunderdome.String()
 
+    # userid
+    assigned_to_id = thunderdome.String()
+
     _assigned = None
 
 
@@ -46,14 +49,19 @@ class Issue(BaseVertex):
         assert isinstance(project, Project)
         assert isinstance(user, User)
 
+        kwargs = {}
+        if assigned:
+            kwargs['assigned_to_id'] = assigned.id
+
         issue = super(Issue, cls).create(name=name, description=description, open=open,
-                                         project_id = project.id)
+                                         project_id = project.id, **kwargs)
 
         CreatedBy.create(issue, user)
         HasProject.create(issue, project)
 
         if assigned:
             AssignedTo.create(issue, assigned)
+
 
         issue.index()
 
@@ -79,7 +87,8 @@ class Issue(BaseVertex):
 
         # create new assigned edge
         AssignedTo.create(self, user)
-
+        self.assigned_to_id = user.id
+        self.save()
         self.index()
 
 
@@ -145,8 +154,8 @@ class Issue(BaseVertex):
                "description":self.description,
                "project_id":self.project_id}
 
-        if self.assigned:
-            tmp["assigned_to_id"] = self.assigned.id
+        if self.assigned_to_id:
+            tmp["assigned_to_id"] = self.assigned_to_id
 
         return tmp
 
@@ -159,7 +168,11 @@ class IssueProxy(object):
         self.user = user
 
 class IssueList(object):
-    def __init__(self):
+    """
+    provides a generic means of iterating over a list of issues
+    built to support search
+    """
+    def __init__(self, ids, facets, total):
         self.user = []
         self.limit = None
         self.status = []
