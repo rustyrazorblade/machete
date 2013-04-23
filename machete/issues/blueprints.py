@@ -41,8 +41,13 @@ class IssuesView(FlaskView):
 
         return success(issue)
 
+    @route("/search")
     def search(self):
-        pids = request.form['projects'].split(",")
+        # we might want to have /issues/search just return all issues
+        # that are open in all projects a user is a part of
+
+        pids = request.args.get('projects').split(",")
+        assert pids
         projects = Project.all(pids)
 
         issues = Issue.search(projects)

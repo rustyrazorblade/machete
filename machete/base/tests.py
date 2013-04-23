@@ -34,6 +34,7 @@ class IntegrationTestCase(TestCase):
     def delete(self, *args, **kwargs):
         return self.client.delete(*args, **kwargs)
 
-    def login(self):
+    def login(self, user=None):
+        user = user or self.user
         return self.post("/login/", {'email':self.user.email, 'password': snippets.password})
 

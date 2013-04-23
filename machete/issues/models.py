@@ -38,6 +38,7 @@ class Issue(BaseVertex):
     project_id  = thunderdome.String()
     severity_id = thunderdome.String()
 
+    created_by_id = thunderdome.String()
     # userid
     assigned_to_id = thunderdome.String()
 
@@ -46,12 +47,18 @@ class Issue(BaseVertex):
 
     @classmethod
     def create(cls, user, name, description, project, assigned=None, open=True):
+        """
+        :param user User creating the issue
+        :type user User
+        """
         assert isinstance(project, Project)
         assert isinstance(user, User)
 
         kwargs = {}
         if assigned:
             kwargs['assigned_to_id'] = assigned.id
+        if user:
+            kwargs['created_by_id'] = user.id
 
         issue = super(Issue, cls).create(name=name, description=description, open=open,
                                          project_id = project.id, **kwargs)
@@ -139,7 +146,7 @@ class Issue(BaseVertex):
 
         query = FilteredQuery(query, filters)
         results = search.search(query=query, indices="machete")
-        return results
+        return IssueList(results)
 
     @property
     def created_by(self):
@@ -150,7 +157,8 @@ class Issue(BaseVertex):
         """
         generates a search doc for ES indexing
         """
-        tmp = {"name":self.name,
+        tmp = {"id":self.id,
+               "name":self.name,
                "description":self.description,
                "project_id":self.project_id}
 
@@ -172,17 +180,23 @@ class IssueList(object):
     provides a generic means of iterating over a list of issues
     built to support search
     """
-    def __init__(self, ids, facets, total):
-        self.user = []
-        self.limit = None
-        self.status = []
-        self._issues = []
-        self.total = 0
+    def __init__(self, search_results):
+        self._search_results = search_results
+        self.total = search_results.total
+
+        self._results = [x for x in search_results]
+        self._ids = [x.id for x in search_results]
+        self._issues = Issue.all(self._ids)
+        self._projects = Project.all([x.project_id for x in self._issues], as_dict=True)
+
+
 
     def __iter__(self):
+        self.position = 0
         return self
 
     def next(self):
+        self.position += 1
         return None
 
 

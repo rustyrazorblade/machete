@@ -3,7 +3,7 @@ from machete import snippets
 from machete.base.tests import IntegrationTestCase
 from machete.util import search
 
-from machete.issues.models import Issue, InvalidSearchException
+from machete.issues.models import Issue, InvalidSearchException, IssueList
 
 # to save time, we're only going to be using setUpClass here
 # we should have an exhaustive list of all the types of searches
@@ -84,8 +84,16 @@ class TestSearch(SearchTestMixin, TestCase):
         results = Issue.search(projects=[self.project1], search_text="first")
         self.assertEquals(results.total, 1)
 
+    def test_issue_list(self):
+        results = Issue.search(projects=[self.project1])
+        self.assertTrue(isinstance(results, IssueList))
+
+
+
 
 
 class IntegrationTest(SearchTestMixin, IntegrationTestCase):
-    pass
+    def test_search_all_for_project(self):
+        response = self.get('/issues/search?projects={}'.format(self.project1.id))
+        self.assert200(response)
 
