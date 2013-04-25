@@ -189,15 +189,28 @@ class IssueList(object):
         self._issues = Issue.all(self._ids)
         self._projects = Project.all([x.project_id for x in self._issues], as_dict=True)
 
-
-
     def __iter__(self):
         self.position = 0
         return self
 
     def next(self):
+        if self.position >= len(self._issues):
+            self.position = 0 # reset position so we can iterate multiple times
+            raise StopIteration
+
+
+        tmp = self._issues[self.position]
         self.position += 1
-        return None
+        return tmp
+
+    @property
+    def json(self):
+        tmp = {}
+
+        tmp['issues'] = [x.json for x in self._issues]
+        tmp['facets'] = []
+
+        return tmp
 
 
 

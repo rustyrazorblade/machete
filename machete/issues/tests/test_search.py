@@ -56,8 +56,10 @@ class TestSearch(SearchTestMixin, TestCase):
 
     def test_assignment(self):
         results = Issue.search(projects=[self.project1, self.project2], assigned=[self.user1])
+
         for x in results:
             self.assertEqual(self.user1.id, x.assigned_to_id)
+            self.assertEqual(self.user1, x.assigned)
 
         self.assertEqual(results.total, 2)
 
@@ -84,12 +86,21 @@ class TestSearch(SearchTestMixin, TestCase):
         results = Issue.search(projects=[self.project1], search_text="first")
         self.assertEquals(results.total, 1)
 
-    def test_issue_list(self):
-        results = Issue.search(projects=[self.project1])
-        self.assertTrue(isinstance(results, IssueList))
 
+class IssueListTest(SearchTestMixin, TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        super(IssueListTest, cls).setUpClass()
+        cls.issues = Issue.search(projects=[cls.project1])
 
+    def test_issue_list_type(self):
+        self.assertTrue(isinstance(self.issues, IssueList))
+
+    def test_json(self):
+        js = self.issues.json
+        assert 'issues' in js
+        assert 'facets' in js
 
 
 class IntegrationTest(SearchTestMixin, IntegrationTestCase):
