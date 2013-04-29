@@ -145,6 +145,12 @@ class Issue(BaseVertex):
             query = MatchAllQuery()
 
         query = FilteredQuery(query, filters)
+        query = query.search()
+
+        query.facet.add_term_facet("project_id")
+        query.facet.add_term_facet("assigned_to_id")
+        query.facet.add_term_facet("created_by_id")
+
         results = search.search(query=query, indices="machete")
         return IssueList(results)
 
@@ -208,7 +214,7 @@ class IssueList(object):
         tmp = {}
 
         tmp['issues'] = [x.json for x in self._issues]
-        tmp['facets'] = []
+        tmp['facets'] = self._search_results._facets
 
         return tmp
 

@@ -107,4 +107,7 @@ class IntegrationTest(SearchTestMixin, IntegrationTestCase):
     def test_search_all_for_project(self):
         response = self.get('/issues/search?projects={}'.format(self.project1.id))
         self.assert200(response)
+        js = response.json['data']
+        assert 'facets' in js
+        assert 'issues' in js
 
