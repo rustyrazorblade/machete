@@ -45,7 +45,9 @@ class IssuesView(FlaskView):
         assert pids
         projects = Project.all(pids)
 
-        issues = Issue.search(projects)
+        text = request.args.get('text', "").strip()
+
+        issues = Issue.search(projects, search_text=text)
 
         return success(issues)
 

@@ -36,7 +36,6 @@ class Issue(BaseVertex):
 
     # cached properties to avoid dozens of extra lookups
     project_id  = thunderdome.String()
-    severity_id = thunderdome.String()
 
     created_by_id = thunderdome.String()
     # userid
