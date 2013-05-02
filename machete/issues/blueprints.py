@@ -21,9 +21,6 @@ class IssueConverter(UUIDConverter):
 
 class IssuesView(FlaskView):
 
-    def index(self):
-        return render("issues.mako")
-
     def get(self, issue):
         issue = Issue.get(issue)
         return success(issue)
