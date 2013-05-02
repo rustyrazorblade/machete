@@ -25,10 +25,8 @@ class IssuesView(FlaskView):
         return render("issues.mako")
 
     def get(self, issue):
-        return render("issues/get.mako", {"issue": issue})
-
-    def create(self):
-        return render("issues/create.mako", {"project":project})
+        issue = Issue.get(issue)
+        return success(issue)
 
     def post(self):
         form = request.form
