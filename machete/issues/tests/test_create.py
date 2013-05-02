@@ -34,5 +34,18 @@ class CreateIntegrationTest(IntegrationTestCase):
         assert data['name'] == js['name']
         assert data['description'] == js['description']
 
+    def test_create_and_assign(self):
+        url = "/issues/"
+        data = {"name":"some issue",
+                "project": self.project.vid,
+                "description":"shut up",
+                "assigned": self.user.vid}
+
+        response = self.post(url, data)
+        self.assert200(response)
+        assert self.user.vid == response.json['data']['assigned_to_id']
+
+
+
 
 

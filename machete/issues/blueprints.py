@@ -6,6 +6,8 @@ from machete.projects.models import Project
 from machete.templating import render
 from machete.issues.models import Issue
 from machete.base.response import success
+from machete.users.models import User
+
 
 class IssueConverter(UUIDConverter):
     """Performs URL parameter validation against a UUID.
@@ -29,10 +31,15 @@ class IssuesView(FlaskView):
         form = request.form
         project = Project.get(form['project'])
 
+        assigned = form.get('assigned', None)
+        if assigned:
+            assigned = User.get(assigned)
+
         issue = Issue.create(session.user,
                              form['name'],
                              form['description'],
-                             project)
+                             project,
+                             assigned=assigned)
 
         return success(issue)
 
